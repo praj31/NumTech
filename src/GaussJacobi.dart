@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:math_expressions/math_expressions.dart';
-
 import 'package:numerical_techniques/size_config.dart';
-
-// Implement using SizeConfig
-//
-//
-//
 
 class GaussJacobi extends StatefulWidget{
   @override
@@ -120,9 +114,7 @@ class _GaussJacobi extends State<GaussJacobi>{
   }
 
   void calculate(){
-    eqns = _controller1.text; // stores input
-    _eqns = eqns.split(","); // split input
-    for(String i in _eqns) i=i.trim(); // trim for whitespaces
+    afterEqns(); // if user clicks calculate again
     resetAll(); // reset all functions before recalculation
     precision = (_controller2.text.length==0)?3:num.parse(_controller2.text); // change precision as per input
     String s=_eqns[0]; // store first equation entered
@@ -132,6 +124,8 @@ class _GaussJacobi extends State<GaussJacobi>{
     }
     int i=0; String unknown="",temp="";
     unk.forEach((f)=>vars.add(new Variable(f)));
+    
+    //To re-write the equations in a form necessary for conversion
     _eqns.forEach((f){
       if(!f.startsWith('-')) f = '+'+f;
       temp = "";
