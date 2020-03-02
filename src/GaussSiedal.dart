@@ -3,11 +3,6 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:numerical_techniques/size_config.dart';
-//Implement size config
-//
-//
-//
-
 class GaussSiedal extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -120,9 +115,7 @@ class _GaussSiedal extends State<GaussSiedal>{
   }
 
   void calculate(){
-    eqns = _controller1.text; // stores input
-    _eqns = eqns.split(","); // split input
-    for(String i in _eqns) i=i.trim(); // trim for whitespaces
+    afterEqns(); // when user clicks calculate again
     resetAll(); // reset all functions before recalculation
     precision = (_controller2.text.length==0)?3:num.parse(_controller2.text); // change precision as per input
     String s=_eqns[0]; // store first equation entered
@@ -132,6 +125,8 @@ class _GaussSiedal extends State<GaussSiedal>{
     }
     int i=0; String unknown="",temp="";
     unk.forEach((f)=>vars.add(new Variable(f)));
+    
+    //To re-write the equations necessary for further calculations
     _eqns.forEach((f){
       if(!f.startsWith('-')) f = '+'+f;
       temp = "";
@@ -194,7 +189,7 @@ class _GaussSiedal extends State<GaussSiedal>{
     makeChanges(); // once calculations have concluded, call the makeChanges method to display them
   }
 
-  void makeChanges(){
+  void makeChanges(){ // this method updates the answer Column
     setState(() {
       _ans=_answer[iterCounter].toString().split(',').join('\n');
       _ans=' '+_ans.substring(1,_ans.length-1);  
