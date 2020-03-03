@@ -19,7 +19,6 @@ class _Bisection extends State<Bisection>{
   final _precision= TextEditingController();
   int precision=2;
   Column _functionAnswer;
-  //List<String> iter=new List<String>();
   List<int> iter=new List<int>();
   List<String> xVal=new List<String>();
   List<String> fx=new List<String>();
@@ -106,11 +105,9 @@ class _Bisection extends State<Bisection>{
     ContextModel cm=new ContextModel(); 
     int i=0; double check=0,a,b,old; bool repeat=true;
     if(func.contains('ln') || func.contains('log')) i=1;
-    //print('$i');
     while(repeat){
       cm.bindVariable(x, new Number(i));
       eval=ex.evaluate(EvaluationType.REAL,cm);
-      print('$i --> $eval');
       if(eval<0){ a=i.toDouble();}
       else{ b=i.toDouble();}
       i++;
@@ -130,10 +127,7 @@ class _Bisection extends State<Bisection>{
     check=old;
     i=1; double numm;
     do{
-      print(i);
       numm=(a+b)/2;
-      //print(numm);
-      //if(i==1) check=numm;
       cm.bindVariable(x, new Number(numm));
       eval=ex.evaluate(EvaluationType.REAL,cm);
       print(eval);
@@ -146,16 +140,13 @@ class _Bisection extends State<Bisection>{
       }
 
       print('[$a , $b]');
-      //answer+="$i\t${numm.toStringAsFixed(precision+2)}\t${eval.toStringAsFixed(precision+2)}\n";
       iter.add(i);
       xVal.add(numm.toStringAsFixed(precision+2));
       fx.add(eval.toStringAsFixed(precision+2));
       intvl.add('[${a.toStringAsFixed(precision+2)} -- ${b.toStringAsFixed(precision+2)}]');
       if(i>1){ check=(old-numm).abs(); old=numm;}
-      //print(check);
       i++;
     }while(check>=(2/pow(10, precision+1)));
-    //print(answer);
     setState(() {
       _functionAnswer=new Column(
         mainAxisAlignment: MainAxisAlignment.center,
