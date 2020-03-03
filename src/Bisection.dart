@@ -408,16 +408,14 @@ class _Bisection extends State<Bisection>{
                   child: Text('( )'),
                   onPressed: (){
                     setState(() { 
-                      //print(startBracket);
                       if(startBracket==false){
-                        func+='('; ++bracket; //print(bracket);
+                        func+='('; ++bracket; 
                         startBracket=true;
                       }
                       else{
-                        func+=')'; --bracket; //print(bracket);
+                        func+=')'; --bracket; 
                       }
                       if(bracket==0) startBracket=false;
-                      //print(startBracket);
                     });
                   },
                 ),

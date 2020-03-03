@@ -155,7 +155,6 @@ class _GaussJacobi extends State<GaussJacobi>{
       _eqns[i] = temp;
       i++;
     });
-    print(_eqns);
     Parser p=new Parser();
     ContextModel cm=new ContextModel();
     _eqns.forEach((f)=>eqn.add(p.parse(f)));
@@ -172,14 +171,11 @@ class _GaussJacobi extends State<GaussJacobi>{
         func[i]= eqn[i].evaluate(EvaluationType.REAL,cm);
         func[i]=double.parse(func[i].toStringAsFixed(precision)); 
       }
-      print(func);
       _answer.add(func.toList()); // add the iteration[i] values to _answer
       check=(func[0]-temp2[0]).abs(); // update check flag
-      print('check: $check');
       for(int i=0;i<unk.length;i++) temp2[i]=func[i]; // transfer func[] values to temp2[] for next iteration
       func.fillRange(0,func.length,0); // refill func to 0, similar to flushing for new input
     } while (check>(1/pow(10, precision)));
-    print(_answer);
     iteration=_answer.length; // stores the number of iterations
 
     makeChanges(); // once calculations have concluded, call the makeChanges method to display them
@@ -239,13 +235,6 @@ class _GaussJacobi extends State<GaussJacobi>{
     });
     _controller1.clear(); _controller2.clear();
     eqns=null;
-  }
-
-  double sum(List<double> li,List<double> temp, int n){ /* function returning evaluated function expression */
-    double ans=0; int i=0; // initial variables
-    li.forEach((f){ ans+=(f*temp[i++]*-1); }); // calculates and sums coeff*value in unknown for each equation
-    ans-=(coeff[n][n]*temp[n]*-1); // counter balancing for extra term
-    return -ans; // return after balancing sign
   }
 
   void resetAll(){ // clear all the used arrays for new set of inputs. Invoked by Reset button.

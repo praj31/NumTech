@@ -156,7 +156,6 @@ class _GaussSiedal extends State<GaussSiedal>{
       _eqns[i] = temp;
       i++;
     });
-    print(_eqns);
     Parser p=new Parser();
     ContextModel cm=new ContextModel();
     _eqns.forEach((f)=>eqn.add(p.parse(f)));
@@ -176,14 +175,12 @@ class _GaussSiedal extends State<GaussSiedal>{
         func[i]=double.parse(func[i].toStringAsFixed(precision)); 
         temp2[i]=func[i];
       }
-      print(func);
       _answer.add(func.toList()); // add the iteration[i] values to _answer
       check=(func[0]-temp3[0]).abs(); // update check flag
       print('check: $check');
       for(int i=0;i<unk.length;i++) temp3[i]=func[i]; // transfer func[] values to temp2[] for next iteration
       func.fillRange(0,func.length,0); // refill func to 0, similar to flushing for new input
     } while (check>(1/pow(10, precision)));
-    print(_answer);
     iteration=_answer.length; // stores the number of iterations
 
     makeChanges(); // once calculations have concluded, call the makeChanges method to display them
@@ -244,14 +241,7 @@ class _GaussSiedal extends State<GaussSiedal>{
     _controller1.clear(); _controller2.clear();
     eqns=null;
   }
-
-  double sum(List<double> li,List<double> temp, int n){
-    double ans=0; int i=0;
-    li.forEach((f){ ans+=(f*temp[i++]*-1); });
-    ans-=(coeff[n][n]*temp[n]*-1);
-    return -ans;
-  }
-
+  
   void resetAll(){
     unk.clear(); res.clear(); coeff.clear(); temp.clear();
     _answer.clear(); disableBack=true; disableForward=false;
