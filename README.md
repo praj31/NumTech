@@ -7,3 +7,4 @@ Solution to numerical problems using the following techniques: <br/>
 	- Bisection Method for obtaining root of algebraic equation<br/>
 	- Regula Falsi Method for obtaining root of algebraic equation<br/>
 	- Newton Raphson Method for obtaining root of algebraic equation<br/>
+	- Euler's Method for obtaining solution of first order differential equation<br />
