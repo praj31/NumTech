@@ -124,15 +124,12 @@ class _NewtonRaphson extends State<NewtonRaphson>{
       a=a+b;
       b=a-b;
       a=a-b;
-      //rev=true;
     }
     A=a;B=b;
-    //print('Root Lies in [$a , $b]');
     old=(a+b)/2;
     check=old;
     i=1; double numm,fa,fda;
     do{
-      //print(i);
       if(i==1) numm=(a+b)/2;
       else{
         cm.bindVariable(x, new Number(a));
@@ -140,31 +137,17 @@ class _NewtonRaphson extends State<NewtonRaphson>{
         fda=exDerived.evaluate(EvaluationType.REAL,cm);
         numm=a-(fa/fda);
       }
-      //print(numm);
-      //if(i==1) check=numm;
       cm.bindVariable(x, new Number(numm));
       eval=ex.evaluate(EvaluationType.REAL,cm);
       deval=exDerived.evaluate(EvaluationType.REAL,cm);
-      //print(eval);
-      /*if(rev){
-        if(eval>0) a=numm;
-        else b=numm;
-      }else{
-        if(eval<0) a=numm;
-        else b=numm;
-      }*/
       a=numm;
-      //print('[$a , $b]');
-      //answer+="$i\t${numm.toStringAsFixed(precision+2)}\t${eval.toStringAsFixed(precision+2)}\n";
       iter.add(i);
       xVal.add(numm.toStringAsFixed(precision+2));
       fx.add(eval.toStringAsFixed(precision+2));
       intvl.add(deval.toStringAsFixed(precision+2));
       if(i>1){ check=(old-numm).abs(); old=numm;}
-      //print(check);
       i++;
     }while(check>=(2/pow(10, precision+1)));
-    //print(answer);
     setState(() {
       _functionAnswer=new Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -218,9 +201,6 @@ class _NewtonRaphson extends State<NewtonRaphson>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text('Enter f(x):',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4),),
-            //SingleChildScrollView(
-              //scrollDirection: Axis.horizontal,
-              //child: 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -249,11 +229,7 @@ class _NewtonRaphson extends State<NewtonRaphson>{
                   },
                 ),
                 ],
-              ),
-           // ),
-            //SingleChildScrollView(
-            //  scrollDirection: Axis.horizontal,
-            //  child: 
+              ), child: 
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
