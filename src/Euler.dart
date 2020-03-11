@@ -14,7 +14,6 @@ class _Euler extends State<Euler>{
   bool startBracket=false;
   int bracket=0;
   String func="";
-  //String answer="";
   final _precision= TextEditingController();
   final _controlx0= TextEditingController();
   final _controly0= TextEditingController();
@@ -149,7 +148,6 @@ class _Euler extends State<Euler>{
   }
   void calculate(){
     reset();
-    //xVal.add('x'); fx.add('f(x)'); intvl.add('f \'(x)');
     precision=(_precision.text.length==0)?3:num.parse(_precision.text);
     double x0=num.parse(double.parse(_controlx0.text).toStringAsFixed(precision));
     double xn=num.parse(double.parse(_controlxn.text).toStringAsFixed(precision));
@@ -165,13 +163,11 @@ class _Euler extends State<Euler>{
     ContextModel cm=new ContextModel();
     ex=ex.simplify();
     int rot = ((xn-x0)/h).round();
-    print(rot);
     double a;
     answers.add(double.parse(y0.toStringAsFixed(precision)));
     yVal.add('y0 = ');
     for(int i=0;i<rot;i++){
       a = x0 + (i*h);
-      print(a);
       cm.bindVariable(x, new Number(a));
       cm.bindVariable(y, new Number(answers[i]));
       eval=ex.evaluate(EvaluationType.REAL,cm);
@@ -179,7 +175,6 @@ class _Euler extends State<Euler>{
       answers.add(double.parse(eval.toStringAsFixed(precision)));
       yVal.add('y${i+1} = ');
     }
-    //print(answers);
     
     setState(() {
       _functionAnswer=new Column(
@@ -196,7 +191,6 @@ class _Euler extends State<Euler>{
                 Container(
                   child: Text(yVal.toString().split(',').join('\n').substring(1,yVal.toString().split(',').join('\n').length-1),textAlign: TextAlign.center,),
                 ),
-               // VerticalDivider(),
                 Container(
                   child: Text(answers.toString().split(',').join('\n').substring(1,answers.toString().split(',').join('\n').length-1),textAlign: TextAlign.center,),
                   
@@ -204,19 +198,17 @@ class _Euler extends State<Euler>{
               ],
             ),
           ),
-          //Text('$answer'),
         ],
       );
     });
   }
   void resetField(){
-    func=""; //answer=""; 
+    func="";  
     startBracket=false; bracket=0; _precision.clear();
     _controlSS.clear(); _controlx0.clear(); _controlxn.clear(); _controly0.clear();
     setState(() {  _functionAnswer=null; });
   }
   void reset(){
-    //=""; // intvl.clear(); xVal.clear(); fx.clear(); iter.clear();
     answers.clear(); yVal.clear();
   }
   void _showKeyboard(context){
@@ -227,9 +219,6 @@ class _Euler extends State<Euler>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text('Enter f(x):',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4),),
-            //SingleChildScrollView(
-              //scrollDirection: Axis.horizontal,
-              //child: 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -249,16 +238,14 @@ class _Euler extends State<Euler>{
                   child: Text('( )'),
                   onPressed: (){
                     setState(() { 
-                      //print(startBracket);
                       if(startBracket==false){
-                        func+='('; ++bracket; //print(bracket);
+                        func+='('; ++bracket; 
                         startBracket=true;
                       }
                       else{
-                        func+=')'; --bracket; //print(bracket);
+                        func+=')'; --bracket; 
                       }
                       if(bracket==0) startBracket=false;
-                      //print(startBracket);
                     });
                   },
                 ),
@@ -270,10 +257,6 @@ class _Euler extends State<Euler>{
                 ),
                 ],
               ),
-           // ),
-            //SingleChildScrollView(
-            //  scrollDirection: Axis.horizontal,
-            //  child: 
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -304,7 +287,6 @@ class _Euler extends State<Euler>{
                   ),
                 ],
               ),
-           // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
