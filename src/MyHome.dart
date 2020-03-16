@@ -9,7 +9,7 @@ import 'package:numerical_techniques/NumericalQuadrature.dart';
 import 'package:numerical_techniques/RangeKutta.dart';
 import 'package:numerical_techniques/SideDrawer.dart';
 import 'package:numerical_techniques/RegulaFalsi.dart';
-//import 'package:numerical_techniques/Taylor.dart';
+import 'package:numerical_techniques/Taylor.dart';
 import 'package:numerical_techniques/size_config.dart';
 
 class MyHome extends StatelessWidget {
@@ -113,14 +113,14 @@ class MyHome extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Container(child: Text('For Solving Ordinary Differential Equation',style: TextStyle(decoration: TextDecoration.underline),),),
-                    /*ListTile(
+                    ListTile(
                       title: Text('Taylor\'s Method',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*5),),
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute<void>(builder: (context)=>Taylor()));
                       },
-                    ),*/
+                    ),
                     ListTile(
                       title: Text('Euler\'s Method',
                       textAlign: TextAlign.left,
