@@ -36,27 +36,27 @@ class SideDrawer extends StatelessWidget{
             ),
           ),
           ListTile(
-            leading: Icon(Icons.dashboard),
+            
+            leading: Icon(Icons.dashboard, color: Colors.purple,),
             title: Text('Dashboard'),
             onTap: (){
               Navigator.popUntil(context, ModalRoute.withName('/'));
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: (){
-            },
+            leading: Icon(Icons.help_outline, color: Colors.purple,),
+            title: Text('Help'),
+            onTap: (){},
           ),
           ListTile(
-            leading: Icon(Icons.account_circle),
+            leading: Icon(Icons.account_circle, color: Colors.purple,),
             title: Text('About'),
             onTap: (){
               Navigator.push(context, MaterialPageRoute<void>(builder: (context)=>DrawerAbout()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.exit_to_app),
+            leading: Icon(Icons.exit_to_app, color: Colors.purple,),
             title: Text('Exit'),
             onTap: ()=> exit(0),
           ),
