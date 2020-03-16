@@ -55,7 +55,6 @@ class _GaussJacobi extends State<GaussJacobi>{
               textAlign: TextAlign.left,
             ),
             TextField(
-                autofocus: true,
                 textInputAction: TextInputAction.done,
                 onSubmitted: (term){ 
                   FocusNode().unfocus();
@@ -68,7 +67,7 @@ class _GaussJacobi extends State<GaussJacobi>{
                 ),   
                 controller: _controller1, 
               ),    
-            Text('\nEnter precision (fix upto d.p.):',textAlign: TextAlign.left,),
+            Text('\nEnter precision (fixed upto d.p.):',textAlign: TextAlign.left,),
             TextField(
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.number,
@@ -114,7 +113,7 @@ class _GaussJacobi extends State<GaussJacobi>{
   }
 
   void calculate(){
-    afterEqns(); // if user clicks calculate again
+    afterEqns();
     resetAll(); // reset all functions before recalculation
     precision = (_controller2.text.length==0)?3:num.parse(_controller2.text); // change precision as per input
     String s=_eqns[0]; // store first equation entered
@@ -124,8 +123,6 @@ class _GaussJacobi extends State<GaussJacobi>{
     }
     int i=0; String unknown="",temp="";
     unk.forEach((f)=>vars.add(new Variable(f)));
-    
-    //To re-write the equations in a form necessary for conversion
     _eqns.forEach((f){
       if(!f.startsWith('-')) f = '+'+f;
       temp = "";
@@ -155,6 +152,7 @@ class _GaussJacobi extends State<GaussJacobi>{
       _eqns[i] = temp;
       i++;
     });
+    print(_eqns);
     Parser p=new Parser();
     ContextModel cm=new ContextModel();
     _eqns.forEach((f)=>eqn.add(p.parse(f)));
@@ -171,11 +169,14 @@ class _GaussJacobi extends State<GaussJacobi>{
         func[i]= eqn[i].evaluate(EvaluationType.REAL,cm);
         func[i]=double.parse(func[i].toStringAsFixed(precision)); 
       }
+      print(func);
       _answer.add(func.toList()); // add the iteration[i] values to _answer
       check=(func[0]-temp2[0]).abs(); // update check flag
+      print('check: $check');
       for(int i=0;i<unk.length;i++) temp2[i]=func[i]; // transfer func[] values to temp2[] for next iteration
       func.fillRange(0,func.length,0); // refill func to 0, similar to flushing for new input
     } while (check>(1/pow(10, precision)));
+    print(_answer);
     iteration=_answer.length; // stores the number of iterations
 
     makeChanges(); // once calculations have concluded, call the makeChanges method to display them
@@ -197,10 +198,10 @@ class _GaussJacobi extends State<GaussJacobi>{
         answers=new Column( // <Widget> to be returned
           children: <Widget>[
             Container(
-              child: Text('Iteration (${iterCounter+1}/$iteration)',style: TextStyle(fontSize: 18)),
+              child: Text('Iteration (${iterCounter+1}/$iteration)',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*5)),
             ),
             ListTile(
-              title: Text('$_ans'),
+              title: Text('$_ans', style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5)),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,10 +218,10 @@ class _GaussJacobi extends State<GaussJacobi>{
               ],
             ),
             Container(
-              child: Text('Final Answer',style: TextStyle(fontSize: 18)),
+              child: Text('Final Answer',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5)),
             ),
             ListTile(
-              title: Text(finalAns),
+              title: Text(finalAns, style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5)),
             ),
           ],
         );
@@ -235,6 +236,13 @@ class _GaussJacobi extends State<GaussJacobi>{
     });
     _controller1.clear(); _controller2.clear();
     eqns=null;
+  }
+
+  double sum(List<double> li,List<double> temp, int n){ /* function returning evaluated function expression */
+    double ans=0; int i=0; // initial variables
+    li.forEach((f){ ans+=(f*temp[i++]*-1); }); // calculates and sums coeff*value in unknown for each equation
+    ans-=(coeff[n][n]*temp[n]*-1); // counter balancing for extra term
+    return -ans; // return after balancing sign
   }
 
   void resetAll(){ // clear all the used arrays for new set of inputs. Invoked by Reset button.

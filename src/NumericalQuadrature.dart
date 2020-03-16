@@ -99,7 +99,10 @@ class _NumericalQuadrature extends State<NumericalQuadrature>{
             Container(
               height: SizeConfig.blockSizeVertical*5,
               alignment: Alignment.center,
-              child: Text('Entered Function: $func',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*5),),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text('Entered Function: $func',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*5),),
+              ),
             ),
             Divider(),
             Row(
@@ -110,7 +113,8 @@ class _NumericalQuadrature extends State<NumericalQuadrature>{
                   width: SizeConfig.blockSizeHorizontal*10,
                   height: SizeConfig.blockSizeVertical*2.5,
                   child: TextField(
-                    decoration: InputDecoration( contentPadding: EdgeInsets.only(bottom: 6)),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration( contentPadding: EdgeInsets.only(bottom: 0)),
                     controller: _controlLB,
                   ),
                 ),
@@ -119,24 +123,27 @@ class _NumericalQuadrature extends State<NumericalQuadrature>{
                   width: SizeConfig.blockSizeHorizontal*10,
                   height: SizeConfig.blockSizeVertical*2.5,
                   child: TextField(
-                    decoration: InputDecoration( contentPadding: EdgeInsets.only(bottom: 6)),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration( contentPadding: EdgeInsets.only(bottom: 0)),
                     controller: _controlUB,
                   ),
                 ),
-                Text('Step size:'),
+                Text('Step size (h):'),
                 Container(
                   width: SizeConfig.blockSizeHorizontal*10,
                   height: SizeConfig.blockSizeVertical*2.5,
                   child: TextField(
-                    decoration: InputDecoration( contentPadding: EdgeInsets.only(bottom: 6)),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration( contentPadding: EdgeInsets.only(bottom: 0)),
                     controller: _controlSS,
                   ),
                 ),
               ],
             ),
             Divider(),
-            Text('Enter precision:'),
+            Text('Enter precision (fixed upto d.p.):', textAlign: TextAlign.left,),
             TextField(
+              keyboardType: TextInputType.number,
               controller: _precision,
               decoration: InputDecoration(hintText: '(2 by default)',contentPadding: EdgeInsets.fromLTRB(5, 10, 0, 0),),
             ),
@@ -179,15 +186,17 @@ class _NumericalQuadrature extends State<NumericalQuadrature>{
               ),
               controller: _controlY,
             ),
-            Text('\nEnter step size:',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4),),
+            Text('\nEnter step size (h):',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4),),
             TextField(
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(5, 10, 0, 0),
               ),
               controller: _controlSS,
             ),
-            Text('\nEnter precision:',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4),),
+            Text('\nEnter precision (fixed upto d.p.):',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4),),
             TextField(
+              keyboardType: TextInputType.number,
               controller: _precision,
               decoration: InputDecoration(hintText: '(2 by default)',contentPadding: EdgeInsets.fromLTRB(5, 10, 0, 0),),
               

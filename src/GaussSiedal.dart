@@ -3,6 +3,11 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:numerical_techniques/size_config.dart';
+//Implement size config
+//
+//
+//
+
 class GaussSiedal extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -56,7 +61,6 @@ class _GaussSiedal extends State<GaussSiedal>{
               textAlign: TextAlign.left,
             ),
             TextField(
-              autofocus: true,
               textInputAction: TextInputAction.done,
               onSubmitted: (term){ 
                 FocusNode().unfocus();
@@ -69,7 +73,7 @@ class _GaussSiedal extends State<GaussSiedal>{
                 ),   
               controller: _controller1,
             ),
-            Text('\nEnter precision count:',textAlign: TextAlign.left,),
+            Text('\nEnter precision (fixed upto d.p.):',textAlign: TextAlign.left,),
             TextField(
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.number,
@@ -115,7 +119,7 @@ class _GaussSiedal extends State<GaussSiedal>{
   }
 
   void calculate(){
-    afterEqns(); // when user clicks calculate again
+    afterEqns();
     resetAll(); // reset all functions before recalculation
     precision = (_controller2.text.length==0)?3:num.parse(_controller2.text); // change precision as per input
     String s=_eqns[0]; // store first equation entered
@@ -125,8 +129,6 @@ class _GaussSiedal extends State<GaussSiedal>{
     }
     int i=0; String unknown="",temp="";
     unk.forEach((f)=>vars.add(new Variable(f)));
-    
-    //To re-write the equations necessary for further calculations
     _eqns.forEach((f){
       if(!f.startsWith('-')) f = '+'+f;
       temp = "";
@@ -156,6 +158,7 @@ class _GaussSiedal extends State<GaussSiedal>{
       _eqns[i] = temp;
       i++;
     });
+    print(_eqns);
     Parser p=new Parser();
     ContextModel cm=new ContextModel();
     _eqns.forEach((f)=>eqn.add(p.parse(f)));
@@ -175,18 +178,20 @@ class _GaussSiedal extends State<GaussSiedal>{
         func[i]=double.parse(func[i].toStringAsFixed(precision)); 
         temp2[i]=func[i];
       }
+      print(func);
       _answer.add(func.toList()); // add the iteration[i] values to _answer
       check=(func[0]-temp3[0]).abs(); // update check flag
       print('check: $check');
       for(int i=0;i<unk.length;i++) temp3[i]=func[i]; // transfer func[] values to temp2[] for next iteration
       func.fillRange(0,func.length,0); // refill func to 0, similar to flushing for new input
     } while (check>(1/pow(10, precision)));
+    print(_answer);
     iteration=_answer.length; // stores the number of iterations
 
     makeChanges(); // once calculations have concluded, call the makeChanges method to display them
   }
 
-  void makeChanges(){ // this method updates the answer Column
+  void makeChanges(){
     setState(() {
       _ans=_answer[iterCounter].toString().split(',').join('\n');
       _ans=' '+_ans.substring(1,_ans.length-1);  
@@ -202,10 +207,10 @@ class _GaussSiedal extends State<GaussSiedal>{
         answers=new Column(
           children: <Widget>[
             Container(
-              child: Text('Iteration (${iterCounter+1}/$iteration)',style: TextStyle(fontSize: 18)),
+              child: Text('Iteration (${iterCounter+1}/$iteration)',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5),),
             ),
             ListTile(
-              title: Text('$_ans'),
+              title: Text('$_ans', style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5),),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,10 +227,10 @@ class _GaussSiedal extends State<GaussSiedal>{
               ],
             ),
             Container(
-              child: Text('Final Answer',style: TextStyle(fontSize: 18)),
+              child: Text('Final Answer',style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5),),
             ),
             ListTile(
-              title: Text(finalAns),
+              title: Text(finalAns, style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*4.5),),
             ),
           ],
         );
@@ -241,7 +246,14 @@ class _GaussSiedal extends State<GaussSiedal>{
     _controller1.clear(); _controller2.clear();
     eqns=null;
   }
-  
+
+  double sum(List<double> li,List<double> temp, int n){
+    double ans=0; int i=0;
+    li.forEach((f){ ans+=(f*temp[i++]*-1); });
+    ans-=(coeff[n][n]*temp[n]*-1);
+    return -ans;
+  }
+
   void resetAll(){
     unk.clear(); res.clear(); coeff.clear(); temp.clear();
     _answer.clear(); disableBack=true; disableForward=false;
